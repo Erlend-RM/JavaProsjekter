@@ -1,0 +1,256 @@
+import java.util.*;
+
+public class TestTheE {
+    public static void main(String[] args) {
+
+        // Lager et nytt legesystem
+        Legesystem legesystem = new Legesystem();
+
+        // Lager en metode for å skrive ut valgmeny i terminalen
+        System.out.println("Velkommen til valgmenyen. Velg hva du ønsker å gjøre: ");
+        System.out.println("1: Skriv ut fullstendig oversikt over pasienter, leger, legemidler og resepter. \n2: Opprett og legg til nye elementer i systemet. " +
+                "\n3: Bruke en gitt resept fra listen til en pasient. \n4: Skrive ut forskjellige former for statistikk. \n5: Skrive ut alle data fra fil. \nVelg din kommando: ");
+        Scanner sc = new Scanner(System.in);
+        String kommando;
+        kommando = sc.nextLine();
+
+
+        if (Objects.equals(kommando, "1")) {
+            legesystem.skrivUtAlleElementer();
+        } else if (Objects.equals(kommando, "2")) {
+            System.out.println("1: Legge til en lege. \n2: Legge til en pasient. " +
+                    "\n3: Legge til resept. \n4: Legge til legemiddel. \n5: Tilbake til hovedmeny. \nVelg din kommando: ");
+            kommando = sc.nextLine();
+            if (Objects.equals(kommando, "1")) {
+                System.out.println("1: Vanlig lege \n2: Spesialist");
+                kommando = sc.nextLine();
+                if (Objects.equals(kommando, "1")) {
+                    System.out.println("Skriv inn navn på lege: ");
+                    kommando = sc.nextLine();
+                    Lege lege = new Lege(kommando);
+                    LesFil.legeListe.leggTil(lege);
+                } else if (Objects.equals(kommando, "2")) {
+                    System.out.println("Skriv inn navn på spesialist: ");
+                    String navn;
+                    navn = sc.nextLine();
+                    System.out.println("Skriv inn kontrollID på spesialist: ");
+                    String kontrollID;
+                    kontrollID = sc.nextLine();
+                    Spesialist spesialist = new Spesialist(navn, kontrollID);
+                    LesFil.legeListe.leggTil(spesialist);
+                    legesystem.skrivUtAlleElementer();
+                } else {
+                    System.out.println("Feil input, prøv igjen");
+                }
+            } else if (Objects.equals(kommando, "2")) {
+                System.out.println("Skriv inn navn paa pasient: ");
+                String navn;
+                navn = sc.nextLine();
+                System.out.println("Skriv inn foedselsNr paa pasient: ");
+                String foedselsNr;
+                foedselsNr = sc.nextLine();
+                Pasient pasient = new Pasient(navn, foedselsNr);
+                LesFil.pasientListe.leggTil(pasient);
+            } else if (Objects.equals(kommando, "3")) {
+                return;
+            } else if (Objects.equals(kommando, "4")) {
+                System.out.println("Hva slags legemiddel vil du legge inn? \n1: Narkotisk \n2: Vanedannende \n3: Vanlig");
+                kommando = sc.nextLine();
+            }
+            if (Objects.equals(kommando, "1")) {
+                System.out.println("Hva er navnet paa det narkotiske legemiddelet:");
+                String navn;
+                navn = sc.nextLine();
+                System.out.println("Tast inn pris: ");
+                int pris = Integer.parseInt(sc.nextLine());
+                System.out.println("Tast inn virkestoff");
+                double virkestoff = Double.parseDouble(sc.nextLine());
+                System.out.println("Tast inn styrke: ");
+                int styrke = Integer.parseInt(sc.nextLine());
+                Narkotisk narkotisk = new Narkotisk(navn, pris, virkestoff, styrke);
+                LesFil.legemiddelListe.leggTil(narkotisk);
+                legesystem.skrivUtAlleElementer();
+            } else if (Objects.equals(kommando, "2")) {
+                System.out.println("Hva er navnet paa det vanedannende legemiddelet:");
+                String navn;
+                navn = sc.nextLine();
+                System.out.println("Tast inn pris: ");
+                int pris = Integer.parseInt(sc.nextLine());
+                System.out.println("Tast inn virkestoff");
+                double virkestoff = Double.parseDouble(sc.nextLine());
+                System.out.println("Tast inn styrke: ");
+                int styrke = Integer.parseInt(sc.nextLine());
+                Vanedannende vanedannende = new Vanedannende(navn, pris, virkestoff, styrke);
+                LesFil.legemiddelListe.leggTil(vanedannende);
+                legesystem.skrivUtAlleElementer();
+            } else if (Objects.equals(kommando, "3")) {
+                System.out.println("Hva er navnet paa det vanlige legemiddelet:");
+                String navn;
+                navn = sc.nextLine();
+                System.out.println("Tast inn pris: ");
+                int pris = Integer.parseInt(sc.nextLine());
+                System.out.println("Tast inn virkestoff");
+                double virkestoff = Double.parseDouble(sc.nextLine());
+                Vanlig vanlig = new Vanlig(navn, pris, virkestoff);
+                LesFil.legemiddelListe.leggTil(vanlig);
+                legesystem.skrivUtAlleElementer();
+            } else {
+                System.out.println("Suck mah balls, fuckface ( ⭐️ Y 🕺 )");
+            }
+            System.out.println("Takk for ditt besøk i systemet, fuckface 💩:^)");
+        }
+
+    }
+}
+
+System.out.println("Hva heter du? ");
+                    kommando = sc.nextLine();
+
+                    // Metode for aa hente riktig lege
+                    Lege lege = null;
+                    for (Lege l : legesystem.legeListe) {
+                        String navn = l.hentLege();
+                        if (kommando.compareTo(navn) == 0) {
+                            lege = l;  // Dette fikser seg det
+                        } // Vi skal ha en måte her dersom det ikke er en lege i systemet
+                    }
+
+                    System.out.println("Pasienter i systemet: ");
+                    System.out.println(LesFil.pasientListe);
+                    System.out.println("Skriv inn ID på pasienten du oensker aa lage en ny resept paa: ");
+                    int pasientIDTemp = Integer.parseInt(sc.nextLine());
+
+                    // Metode for aa hente riktig pasient
+                    Pasient pasient = null;
+                    for (Pasient p : legesystem.pasientListe) {
+                        int pasientID = p.hentPasientID();
+
+                        if (pasientID == pasientIDTemp) {
+                            pasient = p;
+                        } // Vi må ha noe dersom pasienten ikke finnes
+                    }
+
+
+                    System.out.println("Legemidler i systemet: ");
+                    System.out.println(LesFil.legemiddelListe);
+                    System.out.println("Skriv inn legemiddelet du oensker i resepten: ");
+                    int legemiddelIDTemp = Integer.parseInt(sc.nextLine());
+
+                    Legemiddel legemiddel = null;
+                    for (Legemiddel lm : legesystem.legemiddelListe) {
+                        int legemiddelID = lm.hentId();
+
+                        if (legemiddelID == legemiddelIDTemp) {
+                            legemiddel = lm;
+                        }
+                    }
+
+
+                    System.out.println("Hva slags resept oensker du aa opprette? \n1: Hvit resept \n2: Blaa resept \n3: Militaer resept \n4: P resept");
+                    kommando = sc.nextLine();
+                    if (Objects.equals(kommando, "1")) {
+                        System.out.println("Hvor mange reit skal det vaere i resepten? ");
+                        int reit = Integer.parseInt(sc.nextLine());
+                        lege.skrivHvitResept(legemiddel, pasient, reit);
+                    } else if (Objects.equals(kommando, "2")) {
+                        System.out.println("Hvor mange reit skal det vaere i resepten?");
+                        int reit = Integer.parseInt(sc.nextLine());
+                        lege.skrivBlaaResept(legemiddel, pasient, reit);
+                    } else if (Objects.equals(kommando, "3")) {
+                        lege.skrivMilResept(legemiddel, pasient);
+                    } else if (Objects.equals(kommando, "4")) {
+                        System.out.println("Hvor mange reit skal det vaere i resepten?");
+                        int reit = Integer.parseInt(sc.nextLine());
+                        lege.skrivPResept(legemiddel, pasient, reit);
+                    } else {
+                        System.out.println("Dette ble feil kompis");
+                    }
+
+
+            System.out.println("Oversikt over alle pasienter: ");
+            System.out.println(LesFil.pasientListe);
+            System.out.println("Hvilken pasient vil du se resepter for? (Skriv inn pasient ID)");
+
+            int pasientIDTemp = Integer.parseInt(sc.nextLine());
+            // Metode for aa hente pasient
+            Pasient pasient = null;
+            for (Pasient p : LesFil.pasientListe) {
+                int pasientID = p.hentPasientID();
+
+                if (pasientID == pasientIDTemp) {
+                    pasient = p;
+                } // Vi må ha noe dersom pasienten ikke finnes
+            }
+            System.out.println("Valgt pasient: ");
+            System.out.println(pasient);
+
+            System.out.println("Hvilken resept vil du bruke? (Skriv inn resept ID) \n");
+            System.out.println(pasient.hentPasientReseptListe());
+            int reseptIDTemp = Integer.parseInt(sc.nextLine());
+
+            Resept resept = null;
+            for (Resept r : pasient.hentPasientReseptListe()){
+                int reseptID = r.hentId();
+
+                if (reseptID == reseptIDTemp) {
+                    resept = r;
+                }
+            }
+            resept.bruk();
+
+
+
+            System.out.println("Skriv ut statistikk for: \n1: Totalt antall utskrevne resepter paa vanedannende legemidler: " +
+                    "\n2: Totalt antall utskrevne resepter paa narkotiske legemidler \n3: Mulig misbruk av narkotika ");
+            kommando = sc.nextLine();
+            if (Objects.equals(kommando, "1")){
+                int tellVanedannende = 0;
+                for (Resept r : LesFil.reseptListe){
+                    if (r.hentLegemiddel() instanceof Vanedannende){
+                        tellVanedannende ++;
+                        System.out.println("Antall vanedannende resepter: "+tellVanedannende);
+                        // return teller;
+                    }
+                }
+            } else if (Objects.equals(kommando, "2")){
+                int tellNarkotisk = 0;
+                for (Resept r : LesFil.reseptListe){
+                    if (r.hentLegemiddel() instanceof Narkotisk){
+                        tellNarkotisk ++;
+                        System.out.println("Antall narkotiske resepter: "+tellNarkotisk);
+                        // return teller
+                    }
+                }
+            } else if (Objects.equals(kommando, "3")){
+                int teller = 0;
+                Prioritetskoe<Lege> legerTemp = new Prioritetskoe<>();
+                Prioritetskoe<Lege> legerTotalt = new Prioritetskoe<>();
+                for (Resept r : LesFil.reseptListe){
+                    if (r.hentLegemiddel() instanceof Narkotisk){
+                        legerTotalt.leggTil(r.hentLege());
+                        if (legerTemp.stoerrelse() == 0){
+                            legerTemp.leggTil(r.hentLege());
+                        } else {
+                            for (Lege l : legerTemp){
+                                if (l != r.hentLege()){
+                                    legerTemp.leggTil(r.hentLege());
+                                    r.hentLege().antallResept();
+                                } else if (l == r.hentLege()){
+                                    r.hentLege().antallResept();
+                                }
+                            }
+                        }
+                    }
+                }
+                for (Lege l : legerTemp){
+                    teller = 0;
+                    System.out.println(l);
+                    for (Lege lg : legerTotalt){
+                        if (lg == l){
+                            teller++;
+                        }
+                    }
+                    System.out.print("Antall resept: "+teller+"\n");
+                }
+            }
+        }
